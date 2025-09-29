@@ -66,9 +66,26 @@ public:
      */
     ~Users();
 
+    /**
+     * @brief Logs the user out (changes state to Offline)
+     */
     void logout();
+
+    /**
+     * @brief Logs the user in (changes state to Online)
+     */
     void login();
+
+    /**
+     * @brief Puts the user in Do Not Disturb mode
+     */
     void GoDND();
+
+    /**
+     * @brief Changes the user's state to a new state
+     * @param NewState Pointer to the new state object
+     * @return true if state change was successful, false otherwise
+     */
     bool ChangeState(UserState* NewState);
     
 protected:
