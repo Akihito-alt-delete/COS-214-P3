@@ -22,6 +22,7 @@ void Users::send(string message, ChatRoom* room) {
         cout << "Error: Cannot send message to null room" << endl;
         return;
     }
+    
     cout << name << " is sending message to " << room->getRoomName() << endl;
     Command* sendCmd = new SendMessageCommand(room, this, message);
     Command* logCmd = new LogMessageCommand(room, this, message);

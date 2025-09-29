@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include "UserState.h"
 
 class ChatRoom;
 class Command;
@@ -66,6 +67,7 @@ protected:
     vector<ChatRoom*> chatRooms;
     string name;
     vector<Command*> commandQueue;
+    UserState* state;
 };
 
 #endif
