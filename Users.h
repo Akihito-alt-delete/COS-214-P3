@@ -5,6 +5,9 @@
 #include <vector>
 #include <iostream>
 #include "UserState.h"
+#include "OnlineState.h"
+#include "OfflineState.h"
+#include "DndState.h"
 
 class ChatRoom;
 class Command;
@@ -62,6 +65,11 @@ public:
      * @brief Destructor
      */
     ~Users();
+
+    void logout();
+    void login();
+    void GoDND();
+    bool ChangeState(UserState* NewState);
     
 protected:
     vector<ChatRoom*> chatRooms;
