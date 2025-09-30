@@ -13,7 +13,7 @@
 class messageIterator: public Iterator{
     public:
         messageIterator(ChatRoom* room);
-        ~messageIterator();
+        virtual ~messageIterator();
         void first();
         void next();
         bool hasNext();

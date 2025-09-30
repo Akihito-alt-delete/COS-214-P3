@@ -1,3 +1,5 @@
+#ifndef ONLINESTATE_H
+#define ONLINESTATE_H
 #include "UserState.h"
 #include <iostream>
 
@@ -10,7 +12,8 @@
 class OnlineState:public UserState{
     public:
     OnlineState();
-    ~OnlineState();
+    virtual ~OnlineState();
     bool CanReceiveMessage();
     bool CanSendMessage();
 };
+#endif

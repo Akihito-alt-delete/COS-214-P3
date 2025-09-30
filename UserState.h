@@ -1,4 +1,5 @@
-#include "Users.h"
+#ifndef USERSTATE_H
+#define USERSTATE_H
 #include <iostream>
 
 /**
@@ -14,7 +15,8 @@ class UserState{
         bool receive;   ///< Flag indicating if user can receive messages in this state
     public:
         UserState();
-        ~UserState();
+        virtual ~UserState();
         virtual bool CanReceiveMessage() = 0;
         virtual bool CanSendMessage() = 0;
 };
+#endif

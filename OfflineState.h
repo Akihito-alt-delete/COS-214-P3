@@ -1,3 +1,5 @@
+#ifndef OFFLINESTATE_H
+#define OFFLINESTATE_H
 #include "UserState.h"
 #include <iostream>
 
@@ -10,7 +12,8 @@
 class OfflineState:public UserState{
     public:
     OfflineState();
-    ~OfflineState();
+    virtual ~OfflineState();
     bool CanReceiveMessage();
     bool CanSendMessage();
 };
+#endif

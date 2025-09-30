@@ -1,73 +1,80 @@
-CXX = g++
-CXXFLAGS = -std=c++11 -Wall -Wextra -g
-TARGET = petspace_test
+# Makefile for PetSpace Chat System
+# Comprehensive build system without variables
 
-SOURCES = *.cpp
-OBJECTS = $(SOURCES:.cpp=.o)
+# Default target - builds the executable
+all: TestingMain
 
-GREEN = \033[0;32m
-BLUE = \033[0;34m
-YELLOW = \033[1;33m
-RED = \033[0;31m
-NC = \033[0m
+# Compile all object files and link into executable
+TestingMain: TestingMain.o Users.o ChatRoom.o CtrlCat.o Dogorithm.o Command.o SendMessageCommand.o LogMessageCommand.o UserState.o OnlineState.o OfflineState.o DndState.o iterator.o chatIterator.o messageIterator.o
+	g++ -std=c++11 -Wall -o TestingMain TestingMain.o Users.o ChatRoom.o CtrlCat.o Dogorithm.o Command.o SendMessageCommand.o LogMessageCommand.o UserState.o OnlineState.o OfflineState.o DndState.o iterator.o chatIterator.o messageIterator.o
 
-all: clean build test
+# Compile TestingMain.cpp
+TestingMain.o: TestingMain.cpp Users.h ChatRoom.h CtrlCat.h Dogorithm.h Command.h SendMessageCommand.h LogMessageCommand.h UserState.h OnlineState.h OfflineState.h DndState.h iterator.h chatIterator.h messageIterator.h
+	g++ -std=c++11 -Wall -c TestingMain.cpp
 
+# Compile Users.cpp
+Users.o: Users.cpp Users.h ChatRoom.h Command.h SendMessageCommand.h LogMessageCommand.h UserState.h OnlineState.h OfflineState.h DndState.h
+	g++ -std=c++11 -Wall -c Users.cpp
 
-test: build
-	@echo "$(BLUE)🚀 Running tests...$(NC)"
-	./$(TARGET)
-	@echo "$(GREEN)✅ Tests completed!$(NC)"
+# Compile ChatRoom.cpp
+ChatRoom.o: ChatRoom.cpp ChatRoom.h Users.h
+	g++ -std=c++11 -Wall -c ChatRoom.cpp
 
+# Compile CtrlCat.cpp
+CtrlCat.o: CtrlCat.cpp CtrlCat.h ChatRoom.h Users.h
+	g++ -std=c++11 -Wall -c CtrlCat.cpp
 
-build:
-	@echo "$(BLUE)🔨 Building...$(NC)"
-	@$(CXX) $(CXXFLAGS) $(SOURCES) -o $(TARGET)
-	@echo "$(GREEN)✅ Build successful!$(NC)"
+# Compile Dogorithm.cpp
+Dogorithm.o: Dogorithm.cpp Dogorithm.h ChatRoom.h Users.h
+	g++ -std=c++11 -Wall -c Dogorithm.cpp
 
+# Compile Command.cpp
+Command.o: Command.cpp Command.h
+	g++ -std=c++11 -Wall -c Command.cpp
 
-leak: build
-	@echo "$(BLUE)🔍 Checking for memory leaks...$(NC)"
-	@valgrind --leak-check=full --show-leak-kinds=all --quiet ./$(TARGET) 2>&1 | \
-	if grep -q "no leaks are possible\|All heap blocks were freed"; then \
-		echo "$(GREEN)✅ No memory leaks found!$(NC)"; \
-	else \
-		echo "$(RED)❌ Memory leaks detected!$(NC)"; \
-		valgrind --leak-check=full ./$(TARGET); \
-	fi
+# Compile SendMessageCommand.cpp
+SendMessageCommand.o: SendMessageCommand.cpp SendMessageCommand.h Command.h ChatRoom.h Users.h
+	g++ -std=c++11 -Wall -c SendMessageCommand.cpp
 
+# Compile LogMessageCommand.cpp
+LogMessageCommand.o: LogMessageCommand.cpp LogMessageCommand.h Command.h ChatRoom.h Users.h
+	g++ -std=c++11 -Wall -c LogMessageCommand.cpp
 
-valgrind: build
-	@echo "$(BLUE)🔍 Running detailed memory analysis...$(NC)"
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(TARGET)
+# Compile UserState.cpp
+UserState.o: UserState.cpp UserState.h
+	g++ -std=c++11 -Wall -c UserState.cpp
 
+# Compile OnlineState.cpp
+OnlineState.o: OnlineState.cpp OnlineState.h UserState.h
+	g++ -std=c++11 -Wall -c OnlineState.cpp
 
-check: clean build test leak
+# Compile OfflineState.cpp
+OfflineState.o: OfflineState.cpp OfflineState.h UserState.h
+	g++ -std=c++11 -Wall -c OfflineState.cpp
 
+# Compile DndState.cpp
+DndState.o: DndState.cpp DndState.h UserState.h
+	g++ -std=c++11 -Wall -c DndState.cpp
 
-run: build
-	@echo "$(BLUE)🚀 Running program...$(NC)"
-	./$(TARGET)
+# Compile iterator.cpp
+iterator.o: iterator.cpp iterator.h ChatRoom.h
+	g++ -std=c++11 -Wall -c iterator.cpp
 
+# Compile chatIterator.cpp
+chatIterator.o: chatIterator.cpp chatIterator.h iterator.h ChatRoom.h
+	g++ -std=c++11 -Wall -c chatIterator.cpp
 
+# Compile messageIterator.cpp
+messageIterator.o: messageIterator.cpp messageIterator.h iterator.h ChatRoom.h Users.h
+	g++ -std=c++11 -Wall -c messageIterator.cpp
+
+# Run the program
+run: TestingMain
+	./TestingMain
+
+# Clean up object files and executable
 clean:
-	@echo "$(YELLOW)🧹 Cleaning...$(NC)"
-	@rm -f $(TARGET) *.o core.* valgrind_output.txt
-	@echo "$(GREEN)✅ Cleaned!$(NC)"
+	rm -f TestingMain.o Users.o ChatRoom.o CtrlCat.o Dogorithm.o Command.o SendMessageCommand.o LogMessageCommand.o UserState.o OnlineState.o OfflineState.o DndState.o iterator.o chatIterator.o messageIterator.o TestingMain
 
-
-help:
-	@echo "$(BLUE)📋 Simple PetSpace Makefile Commands:$(NC)"
-	@echo ""
-	@echo "$(GREEN)make$(NC)          - Build and run tests (default)"
-	@echo "$(GREEN)make test$(NC)     - Build and run tests"
-	@echo "$(GREEN)make leak$(NC)     - Check for memory leaks (quick)"
-	@echo "$(GREEN)make valgrind$(NC) - Detailed memory analysis"
-	@echo "$(GREEN)make check$(NC)    - Full check (build + test + memory)"
-	@echo "$(GREEN)make build$(NC)    - Just compile the program"
-	@echo "$(GREEN)make run$(NC)      - Build and run"
-	@echo "$(GREEN)make clean$(NC)    - Remove generated files"
-	@echo ""
-	@echo "$(YELLOW)💡 Most common: just type 'make' or 'make check'$(NC)"
-
-.PHONY: all test build leak valgrind check run clean help
+# Phony targets (not actual files)
+.PHONY: all run clean

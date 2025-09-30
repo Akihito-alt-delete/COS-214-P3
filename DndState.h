@@ -1,3 +1,5 @@
+#ifndef DNDSTATE_H
+#define DNDSTATE_H
 #include "UserState.h"
 #include <iostream>
 
@@ -10,7 +12,8 @@
 class DndState:public UserState{
     public:
     DndState();
-    ~DndState();
+    virtual ~DndState();
     bool CanReceiveMessage();
     bool CanSendMessage();
 };
+#endif

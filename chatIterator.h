@@ -4,7 +4,7 @@
 class chatIterator: public Iterator{
     public:
         chatIterator(ChatRoom* room);
-        ~chatIterator();
+        virtual ~chatIterator();
         void first();
         void next();
         bool hasNext();
