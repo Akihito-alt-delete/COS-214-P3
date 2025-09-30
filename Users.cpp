@@ -68,15 +68,15 @@ void Users::executeAll() {
 }
 
 Users::~Users() {
-    // for (Command* cmd : commandQueue) {
-    //     delete cmd;
-    // }
-    // commandQueue.clear();
-    // cout << "User " << name << " destroyed." << endl;
-    // if(state != NULL){
-    //     delete state;
-    //     state = NULL;
-    // }
+    for (Command* cmd : commandQueue) {
+        delete cmd;
+    }
+    commandQueue.clear();
+    cout << "User " << name << " destroyed." << endl;
+    if(state != NULL){
+        delete state;
+        state = NULL;
+    }
 }
 
 void Users::logout(){
